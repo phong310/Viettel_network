@@ -68,7 +68,7 @@ export default function ComboData() {
     }
     return (
         <Box sx={{ bgcolor: '#dd3333', mt: 10, py: 4 }}>
-            <Grid container justifyContent={'center'} sx={{pb:4}}>
+            <Grid container justifyContent={'center'} sx={{ pb: 4}}>
                 <Grid container alignItems={'center'} justifyContent={'flex-start'} maxWidth={1000} >
                     <Divider orientation="vertical" sx={{ ...styleDivider }} />
                     <Typography sx={{ ...styleTile }}>Gói combo viettel mới ra mắt</Typography>

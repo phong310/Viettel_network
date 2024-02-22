@@ -113,7 +113,8 @@ export default function Data4g() {
 
 const girdTitle = {
     pt: 10,
-    pb: 4
+    pb: 4,
+    pl:{xs:4, sm:4, lg:0}
 }
 
 const styleGridContainer = {

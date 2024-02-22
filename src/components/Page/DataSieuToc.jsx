@@ -113,7 +113,8 @@ export default function DataSieuToc() {
 
 const girdTitle = {
     pt: 10,
-    pb: 2
+    pb: 2,
+    pl: { xs: 4, sm: 4, lg: 0 }
 }
 
 const styleGridContainer = {

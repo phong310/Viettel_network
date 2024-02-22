@@ -23,8 +23,8 @@ export default function DataOffer() {
             syntax: 'V90C TN',
             phone: 9123,
             hot: false,
-            register:'Soạn V90C TN gửi 9123',
-            description:'Sở hữu ưu đãi tích hợp với giá cước siêu rẻ khi đăng ký gói cước V90C thì còn gì tuyệt vời hơn. Vậy làm thế nào để đăng ký gói V90C nhận được ngay ưu đãi khủng? Thông tin dưới đây rất chi tiết để khách hàng có thể để dễ dàng đăng ký gói cước khuyến mãi V90C nhanh chóng, đơn giản nhất.'
+            register: 'Soạn V90C TN gửi 9123',
+            description: 'Sở hữu ưu đãi tích hợp với giá cước siêu rẻ khi đăng ký gói cước V90C thì còn gì tuyệt vời hơn. Vậy làm thế nào để đăng ký gói V90C nhận được ngay ưu đãi khủng? Thông tin dưới đây rất chi tiết để khách hàng có thể để dễ dàng đăng ký gói cước khuyến mãi V90C nhanh chóng, đơn giản nhất.'
         },
         {
             name: 'V120B',
@@ -33,8 +33,8 @@ export default function DataOffer() {
             syntax: 'V120B TN',
             phone: 9123,
             hot: false,
-            register:'Soạn V120B TN gửi 9123',
-            description:'Bạn đang tìm kiếm gói cước để đáp ứng nhu cầu nghe gọi và sử dụng Internet thường xuyên vậy V120B Viettel sẽ không làm bạn thất vọng, với ưu đãi vô cùng hời mức chi phí siêu rẻ , chỉ với 120.000đ cho 1 lần đăng ký thành công , nhanh tay đăng ký gói cước này ngay với cú pháp được để bên dưới bài viết này nhé.'
+            register: 'Soạn V120B TN gửi 9123',
+            description: 'Bạn đang tìm kiếm gói cước để đáp ứng nhu cầu nghe gọi và sử dụng Internet thường xuyên vậy V120B Viettel sẽ không làm bạn thất vọng, với ưu đãi vô cùng hời mức chi phí siêu rẻ , chỉ với 120.000đ cho 1 lần đăng ký thành công , nhanh tay đăng ký gói cước này ngay với cú pháp được để bên dưới bài viết này nhé.'
         },
         {
             name: 'V150B',
@@ -43,8 +43,8 @@ export default function DataOffer() {
             syntax: 'V150B TN',
             phone: 9123,
             hot: false,
-            register:'Soạn V150B TN gửi 9123',
-            description:'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
+            register: 'Soạn V150B TN gửi 9123',
+            description: 'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
         },
         {
             name: 'V200C',
@@ -53,8 +53,8 @@ export default function DataOffer() {
             syntax: 'V200C TN',
             phone: 9123,
             hot: true,
-            register:'Soạn V200C TN gửi 9123',
-            description:'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
+            register: 'Soạn V200C TN gửi 9123',
+            description: 'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
         },
     ]
 
@@ -77,12 +77,12 @@ export default function DataOffer() {
     const news = () => {
         window.open('https://3g4gviettel.vn/tin-tuc/', '_blank');
     }
-    
+
 
     return (
         <>
             <Box sx={{ bgcolor: '#dd3333', mt: 10, py: 4 }}>
-                <Grid container justifyContent={'center'} sx={{ pb: 4 }}>
+                <Grid container justifyContent={'center'} sx={{ pb: 4, pl: { xs: 4, sm: 4, lg: 0 } }}>
                     <Grid container alignItems={'center'} justifyContent={'flex-start'} maxWidth={1000} >
                         <Divider orientation="vertical" sx={{ ...styleDivider }} />
                         <Typography sx={{ ...styleTile }}>Gói ưu đãi viettel</Typography>
@@ -119,8 +119,8 @@ export default function DataOffer() {
                 </Grid>
                 <ModalDetail open={open} handleClose={closeModal} nameOfPack={name} description={des} />
             </Box>
-            <Grid container justifyContent={'center'} sx={{ mt: 10 }} spacing={3}>
-                <Grid item xs={12} sm={2.8} alignItems={'center'} sx={{ ...styleLastGrid, mr: { xs: 0, sm: 1, md: 2 }, mb: { xs: 2, sm: 0 } }}>
+            <Grid container justifyContent={'center'} sx={{ mt: 10, gap: 2, p: { xs: 5, sm: 0, lg: 0 } }}>
+                <Grid item xs={12} sm={4} lg={3} alignItems={'center'} sx={{ ...styleLastGrid }}>
                     <Grid sx={{ ...styleLastTypo }}>
                         <RedeemIcon />
                     </Grid>
@@ -131,7 +131,7 @@ export default function DataOffer() {
                         </Button>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} sm={2.8} alignItems={'center'} sx={{ ...styleLastGrid }}>
+                <Grid item xs={12} sm={4} lg={3} alignItems={'center'} sx={{ ...styleLastGrid }}>
                     <Grid sx={{ ...styleLastTypo }}>
                         <LanguageIcon />
                     </Grid>

@@ -94,10 +94,10 @@ export default function Header() {
     return (
         <Box>
             <Grid container spacing={3} sx={{ ...styleBoxContainer, display: { xs: 'none', sm: 'none', md: 'flex', } }}>
-                <Grid item sm={12} md={4} lg={2} sx={{ ...styleImg }} onClick={reloadPage}>
+                <Grid item sm={12} md={12} lg={2} sx={{ ...styleImg }} onClick={reloadPage}>
                     <img src='https://3g4gviettel.vn/wp-content/uploads/2022/06/logo-3g4gviettel-vn.png' style={{ width: 200, height: 26 }} />
                 </Grid>
-                <Grid sm={12} md={4} lg={6} item sx={{ ...styleGridMenu }}>
+                <Grid sm={12} md={12} lg={6} item sx={{ ...styleGridMenu }}>
                     {menuList.map((item, index) => {
                         return (
                             <Grid sx={{ ...styleMenu }} key={index}>
