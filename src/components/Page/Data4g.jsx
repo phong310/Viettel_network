@@ -61,15 +61,13 @@ export default function Data4g() {
     // }
 
     const showAlertOrSendSMS = (registerInfo) => {
-        // Kiểm tra xem trang web đang được truy cập từ thiết bị di động hay không
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
 
         // Nếu là trên thiết bị di động, gửi tin nhắn
         if (isMobile) {
-            console.log(123);
-            window.location.href = `sms:${registerInfo}`;
+            const message = encodeURIComponent(`[${syntax}]`);
+            window.location.href = `sms:${phone}&body=${message}`;
         } else {
-            // Nếu là trên web, hiển thị cảnh báo
             alert(registerInfo);
         }
     }
