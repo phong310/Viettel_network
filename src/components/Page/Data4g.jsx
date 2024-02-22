@@ -56,8 +56,22 @@ export default function Data4g() {
         },
     ]
 
-    const showAlert = (registerInfo) => {
-        alert(registerInfo)
+    // const showAlert = (registerInfo) => {
+    //     alert(registerInfo)
+    // }
+
+    const showAlertOrSendSMS = (registerInfo) => {
+        // Kiểm tra xem trang web đang được truy cập từ thiết bị di động hay không
+        const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
+
+        // Nếu là trên thiết bị di động, gửi tin nhắn
+        if (isMobile) {
+            console.log(123);
+            window.location.href = `sms:${registerInfo}`;
+        } else {
+            // Nếu là trên web, hiển thị cảnh báo
+            alert(registerInfo);
+        }
     }
 
     const closeModal = () => {
@@ -96,7 +110,7 @@ export default function Data4g() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlert(item.register)}>Soạn tin</Button>
+                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register)}>Soạn tin</Button>
                             </CardActions>
                             <CardActions sx={{ ...cartAction }}>
                                 <Button variant="outlined" color='error' sx={{ ...btnDetail }} onClick={() => handleOpenModal({ name: item.name, des: item.description })}>Chi tiết</Button>
@@ -116,7 +130,6 @@ const girdTitle = {
     pb: 4,
     pl:{xs:4, sm:4, lg:0}
 }
-
 const styleGridContainer = {
     gap: 2,
     textAlign: 'center',
