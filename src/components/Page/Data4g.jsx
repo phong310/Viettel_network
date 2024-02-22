@@ -22,7 +22,7 @@ export default function Data4g() {
             phone: 9123,
             hot: false,
             register: 'Soạn MXH100 TN gửi 9123',
-            description:'MXH100 Viettel là gói cước siêu tốc với 30GB dữ liệu, mỗi ngày 1GB và đặc biệt miễn phí không giới hạn truy cập Facebook, Youtube, Tik Tok ở tốc độ cao nhất. Gói cước này triển khai từ ngày 19/07/2023, áp dụng cho thuê bao trả trước và trả sau hòa mạng từ ngày 01/01/2023'
+            description: 'MXH100 Viettel là gói cước siêu tốc với 30GB dữ liệu, mỗi ngày 1GB và đặc biệt miễn phí không giới hạn truy cập Facebook, Youtube, Tik Tok ở tốc độ cao nhất. Gói cước này triển khai từ ngày 19/07/2023, áp dụng cho thuê bao trả trước và trả sau hòa mạng từ ngày 01/01/2023'
         },
         {
             name: 'MXH120',
@@ -32,7 +32,7 @@ export default function Data4g() {
             phone: 9123,
             hot: false,
             register: 'Soạn MXH12 TN gửi 9123',
-            description:'Đăng ký MXH120 của Viettel chỉ với mức giá là 120.000đ cho 30 ngày sử dụng bạn có ngay 30Gb data 4G tốc độ cao truy cập mạng internet trên điện thoại di động. Mỗi ngày bạn được sử dụng mức 1Gb data 4G tốc độ cao trong suốt 30 ngày để thỏa mái lướt nét xem tim túc, tìm kiếm thông tin để học tập và kết nối người thân.'
+            description: 'Đăng ký MXH120 của Viettel chỉ với mức giá là 120.000đ cho 30 ngày sử dụng bạn có ngay 30Gb data 4G tốc độ cao truy cập mạng internet trên điện thoại di động. Mỗi ngày bạn được sử dụng mức 1Gb data 4G tốc độ cao trong suốt 30 ngày để thỏa mái lướt nét xem tim túc, tìm kiếm thông tin để học tập và kết nối người thân.'
         },
         {
             name: 'MXH150',
@@ -42,7 +42,7 @@ export default function Data4g() {
             phone: 9123,
             hot: false,
             register: 'Soạn MXH150 TN gửi 9123',
-            description:'MXH150 Viettel – 150.000 đ / tháng là gói cước KHÔNG GIỚI HẠN DATA khi truy cập Tiktok, Youtube, Facebook và gọi nội mạng, ngoại thả ga miễn phí. Ngoài ra gói cước MXH150 còn có 45 GB DATA để quý khách sử dụng truy cập vào các công việc khác phục vụ làm việc, học tập, giải trí…'
+            description: 'MXH150 Viettel – 150.000 đ / tháng là gói cước KHÔNG GIỚI HẠN DATA khi truy cập Tiktok, Youtube, Facebook và gọi nội mạng, ngoại thả ga miễn phí. Ngoài ra gói cước MXH150 còn có 45 GB DATA để quý khách sử dụng truy cập vào các công việc khác phục vụ làm việc, học tập, giải trí…'
         },
         {
             name: 'SD150',
@@ -60,7 +60,7 @@ export default function Data4g() {
     //     alert(registerInfo)
     // }
 
-    const showAlertOrSendSMS = (registerInfo) => {
+    const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
 
         // Nếu là trên thiết bị di động, gửi tin nhắn
@@ -108,7 +108,7 @@ export default function Data4g() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register)}>Soạn tin</Button>
+                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register, item.phone, item.syntax)}>Soạn tin</Button>
                             </CardActions>
                             <CardActions sx={{ ...cartAction }}>
                                 <Button variant="outlined" color='error' sx={{ ...btnDetail }} onClick={() => handleOpenModal({ name: item.name, des: item.description })}>Chi tiết</Button>
@@ -117,7 +117,7 @@ export default function Data4g() {
                     )
                 })}
             </Grid>
-            <ModalDetail open={open} handleClose={closeModal} nameOfPack={name} description={des}/>
+            <ModalDetail open={open} handleClose={closeModal} nameOfPack={name} description={des} />
         </>
 
     )
@@ -126,7 +126,7 @@ export default function Data4g() {
 const girdTitle = {
     pt: 10,
     pb: 4,
-    pl:{xs:4, sm:4, lg:0}
+    pl: { xs: 4, sm: 4, lg: 0 }
 }
 const styleGridContainer = {
     gap: 2,
