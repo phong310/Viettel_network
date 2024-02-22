@@ -56,10 +56,6 @@ export default function Data4g() {
         },
     ]
 
-    // const showAlert = (registerInfo) => {
-    //     alert(registerInfo)
-    // }
-
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
 

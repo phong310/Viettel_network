@@ -55,8 +55,16 @@ export default function ComboData() {
         },
     ]
 
-    const showAlert = (registerInfo) => {
-        alert(registerInfo)
+    const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
+        const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
+
+        // Nếu là trên thiết bị di động, gửi tin nhắn
+        if (isMobile) {
+            const message = encodeURIComponent(`${syntax}`);
+            window.location.href = `sms:${phone}&body=${message}`;
+        } else {
+            alert(registerInfo);
+        }
     }
 
     const closeModal = () => {
@@ -94,7 +102,7 @@ export default function ComboData() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlert(item.register)}>Soạn tin</Button>
+                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register, item.phone, item.syntax)}>Soạn tin</Button>
                             </CardActions>
                             <CardActions sx={{ ...cartAction }}>
                                 <Button variant="outlined" color='error' sx={{ ...btnDetail }} onClick={() => handleOpenModal({ name: item.name, des: item.description })}>Chi tiết</Button>
