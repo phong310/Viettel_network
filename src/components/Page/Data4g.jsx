@@ -65,7 +65,7 @@ export default function Data4g() {
 
         // Nếu là trên thiết bị di động, gửi tin nhắn
         if (isMobile) {
-            const message = encodeURIComponent(`[${syntax}]`);
+            const message = encodeURIComponent(`${syntax}`);
             window.location.href = `sms:${phone}&body=${message}`;
         } else {
             alert(registerInfo);
