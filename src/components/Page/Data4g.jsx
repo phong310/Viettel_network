@@ -130,7 +130,6 @@ const girdTitle = {
     pb: 4,
     pl:{xs:4, sm:4, lg:0}
 }
-
 const styleGridContainer = {
     gap: 2,
     textAlign: 'center',
