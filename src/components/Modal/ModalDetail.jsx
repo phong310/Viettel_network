@@ -42,15 +42,15 @@ export default function ModalDetail({ open, handleClose, nameOfPack, description
   )
 }
  
-
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 'auto',
+    width: '80%', 
+    maxWidth: '500px',
     bgcolor: 'background.paper',
-    borderRadius:2,
+    borderRadius: 2,
     boxShadow: 24,
     p: 4,
 };
