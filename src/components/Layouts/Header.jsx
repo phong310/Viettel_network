@@ -112,7 +112,7 @@ export default function Header() {
 
                     </Grid>
                 </Grid>
-                <Grid sm={12} md={4} lg={1} item sx={{ ...styleGridPhone }}>
+                <Grid sm={12} md={4} lg={2} item sx={{ ...styleGridPhone }}>
                     <Grid item>
                         <CircleIconWrapper>
                             <PhoneForwardedOutlinedIcon />

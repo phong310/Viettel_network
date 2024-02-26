@@ -2,6 +2,11 @@ import SmsIcon from '@mui/icons-material/Sms';
 import { Button, Card, CardActions, CardContent, Divider, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import ModalDetail from '../Modal/ModalDetail';
+import { Autoplay } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function Data4g() {
 
@@ -54,6 +59,26 @@ export default function Data4g() {
             register: 'Soạn SD150 gửi 9123',
             description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
         },
+        {
+            name: 'SD150',
+            price: '150.000đ /30 ngày',
+            data: '90GB',
+            syntax: 'SD150 TN',
+            phone: 9123,
+            hot: true,
+            register: 'Soạn SD150 gửi 9123',
+            description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
+        },
+        {
+            name: 'SD150',
+            price: '150.000đ /30 ngày',
+            data: '90GB',
+            syntax: 'SD150 TN',
+            phone: 9123,
+            hot: true,
+            register: 'Soạn SD150 gửi 9123',
+            description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
+        },
     ]
 
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
@@ -85,33 +110,64 @@ export default function Data4g() {
                 </Grid>
             </Grid>
             <Grid container sx={{ ...styleGridContainer }} justifyContent={'center'}>
-                {packOfData.map((item, index) => {
-                    return (
-                        <Card sx={{ ...cardContainer }} key={index}>
-                            {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
-                            <CardContent>
-                                <Typography variant="h4" component="div" sx={{ ...typoName }}>
-                                    {item.name}
-                                </Typography>
-                                <Divider />
-                                <Typography gutterBottom variant="h5" component="div" sx={{ ...typoPrice }}>
-                                    {item.price}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ ...typoData }}>Data: <b style={{ color: '#576C8A' }}>{item.data}</b></Typography>
-                                <Divider />
-                                <Typography gutterBottom variant="h5" component="div" sx={{ ...typoSend }}>
-                                    <b style={{ color: '#EE0033' }}>{item.syntax}</b> gửi <b style={{ color: '#EE0033' }}>{item.phone}</b>
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register, item.phone, item.syntax)}>Soạn tin</Button>
-                            </CardActions>
-                            <CardActions sx={{ ...cartAction }}>
-                                <Button variant="outlined" color='error' sx={{ ...btnDetail }} onClick={() => handleOpenModal({ name: item.name, des: item.description })}>Chi tiết</Button>
-                            </CardActions>
-                        </Card>
-                    )
-                })}
+                <Swiper
+                    slidesPerView={4}
+                    className="mySwiper"
+                    autoplay={{
+                        delay: 1000,
+                        disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay]}
+                    breakpoints={{
+                        1724: {
+                            slidesPerView: 4,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                        },
+                        500: {
+                            slidesPerView: 2,
+                        },
+                        300: {
+                            slidesPerView: 1,
+                        },
+                        100: {
+                            slidesPerView: 1,
+                        }
+                    }}
+                >
+                    {packOfData.map((item, index) => {
+                        return (
+                            <SwiperSlide key={index} style={styleSwiper}>
+                                <Card sx={{ ...cardContainer }}>
+                                    {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
+                                    <CardContent>
+                                        <Typography variant="h4" component="div" sx={{ ...typoName }}>
+                                            {item.name}
+                                        </Typography>
+                                        <Divider />
+                                        <Typography gutterBottom variant="h5" component="div" sx={{ ...typoPrice }}>
+                                            {item.price}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ ...typoData }}>Data: <b style={{ color: '#576C8A' }}>{item.data}</b></Typography>
+                                        <Divider />
+                                        <Typography gutterBottom variant="h5" component="div" sx={{ ...typoSend }}>
+                                            <b style={{ color: '#EE0033' }}>{item.syntax}</b> gửi <b style={{ color: '#EE0033' }}>{item.phone}</b>
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button variant="contained" endIcon={<SmsIcon />} sx={{ ...buttonSend }} onClick={() => showAlertOrSendSMS(item.register, item.phone, item.syntax)}>Soạn tin</Button>
+                                    </CardActions>
+                                    <CardActions sx={{ ...cartAction }}>
+                                        <Button variant="outlined" color='error' sx={{ ...btnDetail }} onClick={() => handleOpenModal({ name: item.name, des: item.description })}>Chi tiết</Button>
+                                    </CardActions>
+                                </Card>
+                            </SwiperSlide>
+
+                        )
+                    })}
+                </Swiper>
+
             </Grid>
             <ModalDetail open={open} handleClose={closeModal} nameOfPack={name} description={des} />
         </>
@@ -127,11 +183,19 @@ const girdTitle = {
 const styleGridContainer = {
     gap: 2,
     textAlign: 'center',
+    px: { xl: 54, lg: 30, md: 10, xs: 0 }
+}
+
+const styleSwiper = {
+    height: 400,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
 }
 
 const cardContainer = {
     position: 'relative',
-    maxWidth: 400,
+    maxWidth: 300,
     p: 2,
     overflow: 'visible',
     transition: 'transform .2s, box-shadow .2s',
