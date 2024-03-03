@@ -1,23 +1,22 @@
 
-import { Box, Grid, Container as MContainer, Paper, Stack, TextField, Typography, styled } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { LoadingButton } from '@mui/lab'
-import { Link } from 'react-router-dom'
-import viettelPng from '/src/assets/viettel.png'
-import settingPng from '/src/assets/settings.png'
-import { useNavigate } from "react-router-dom";
+import { Box, Grid, Container as MContainer, Paper, Stack, TextField, Typography, styled } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
 import { useState } from 'react'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
+import { LoginUser } from '../Api/apiRequest'
+import settingPng from '/src/assets/settings.png'
+import viettelPng from '/src/assets/viettel.png'
 
 
 export const Login = () => {
     const navigate = useNavigate();
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -40,10 +39,8 @@ export const Login = () => {
         }
         try {
             await loginSchema.validate({ username, password }, { abortEarly: false });
-            await axios.post(`${baseURL}auth/login`, loginUser);
+            LoginUser(loginUser, dispatch, navigate)
             setIsSubmitting(false)
-            toast.success("Đăng nhập thành công !")
-            navigate('/admin')
         } catch (error) {
             if (error instanceof yup.ValidationError) {
                 const newErrors = {};
@@ -51,8 +48,6 @@ export const Login = () => {
                     newErrors[e.path] = e.message;
                 });
                 setErrors(newErrors);
-            } else {
-                toast.error("Đăng nhập không thành công")
             }
             setIsSubmitting(false)
         }

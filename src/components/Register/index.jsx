@@ -1,20 +1,20 @@
 
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { LoadingButton } from '@mui/lab'
 import { Box, Grid, Container as MContainer, Paper, Stack, TextField, Typography, styled } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import settingPng from '/src/assets/settings.png'
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import axios from 'axios'
-import { toast } from 'react-toastify'
 import * as yup from 'yup'
+import { RegisterUser } from '../Api/apiRequest'
+import settingPng from '/src/assets/settings.png'
 
 export const Register = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const baseURL = import.meta.env.VITE_API_LOCAL;
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +22,6 @@ export const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPass, setShowConfirmPass] = useState(false);
     const [errors, setErrors] = useState({});
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
 
 
     const registerSchema = yup.object().shape({
@@ -46,9 +45,7 @@ export const Register = () => {
         }
         try {
             await registerSchema.validate({ username, email, password, confirmPass }, { abortEarly: false });
-            await axios.post(`${baseURL}auth/register`, newUser)
-            toast.success("Đăng ký thành công !")
-            navigate('/login')
+            RegisterUser(newUser, dispatch, navigate);
 
         } catch (error) {
             if (error instanceof yup.ValidationError) {
@@ -57,8 +54,6 @@ export const Register = () => {
                     newErrors[e.path] = e.message;
                 });
                 setErrors(newErrors);
-            } else {
-                toast.error("Đăng ký không thành công")
             }
         }
     }
