@@ -7,7 +7,7 @@ import { getSieuTocFaild, getSieuTocStart, getSieuTocSuccess } from "../Redux/si
 import { getDataOfferFaild, getDataOfferStart, getDataOfferSuccess } from "../Redux/offerSlice";
 import { getUserFaild, getUserStart, getUserSuccess } from "../Redux/userSlice";
 
-const baseURL = import.meta.env.VITE_API_LOCAL;
+const baseURL = import.meta.env.VITE_API_PRODUCTS;
 
 // REGISTER
 export const RegisterUser = async (newUser, dispatch, navigate) => {

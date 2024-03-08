@@ -158,7 +158,7 @@ export default function DataOffer({ tab, dataList, triggerSearch }) {
         <Box sx={{ ...styleBoxContainer }}>
             <Paper sx={{ width: '100%', overflow: 'hidden', }}>
                 <TableCell sx={{ ...tableCellTitle }}>
-                    <Typography variant='h5'>Danh sách gói ưu đãi  <Chip label={rowData.length} color="error" /></Typography>
+                    <Typography variant='h5'>Danh sách gói ưu đãi  <Chip label={rowData?.length} color="error" /></Typography>
                     <Button variant="contained" startIcon={<AddIcon />} sx={{ ...styleBtnAdd }} onClick={() => setOpenModal(true)}>
                         Thêm mới
                     </Button>
@@ -181,7 +181,7 @@ export default function DataOffer({ tab, dataList, triggerSearch }) {
                         </TableHead>
                         <TableBody>
                             {rowData
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, idx) => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={idx}>

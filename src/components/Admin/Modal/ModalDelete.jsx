@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function ModalDelete({ open, setOpen, item, setIsFetching, isFetching, valueTab, isDetail, setIsDetail }) {
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const urlApi = 'data-network'
 
     const handleDelete = async (e) => {

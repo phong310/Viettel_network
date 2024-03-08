@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function SearchPanel({ label, data, setDataList, setTriggerSearch, triggerSearch }) {
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const [nameSearch, setNameSearch] = useState('');
     const [hotSearch, setHotSearch] = useState('');
     const [statusSearch, setStatusSearch] = useState('')

@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEdit, setIsEdit, item, isFetching }) {
-    const baseURL = import.meta.env.VITE_API_LOCAL;
+    const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const urlApi = 'data-network/add-new'
     const urlUpdateApi = 'data-network/update'
     const handleClose = () => {
