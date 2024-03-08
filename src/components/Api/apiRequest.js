@@ -1,6 +1,11 @@
 import axios from "axios";
 import { logOutFailed, logOutStart, logOutSuccess, loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess } from "../Redux/authSlice";
+import { getDataStart, getDataSuccess, getDataFaild } from "../Redux/dataSlice"
 import { toast } from 'react-toastify';
+import { getComboFaild, getComboStart, getComboSuccess } from "../Redux/comboSlice";
+import { getSieuTocFaild, getSieuTocStart, getSieuTocSuccess } from "../Redux/sieuTocSlice";
+import { getDataOfferFaild, getDataOfferStart, getDataOfferSuccess } from "../Redux/offerSlice";
+import { getUserFaild, getUserStart, getUserSuccess } from "../Redux/userSlice";
 
 const baseURL = import.meta.env.VITE_API_LOCAL;
 
@@ -48,5 +53,80 @@ export const LogoutUser = async (id, dispatch, navigate, accessToken) => {
     } catch (e) {
         dispatch(logOutFailed());
         toast.error("Đăng xuất không thành công")
+    }
+}
+
+// GET ALL DATA NETWORK
+export const getAllData = async (dispatch, accessToken) => {
+    dispatch(getDataStart())
+    try {
+        const url = `${baseURL}data-network/getAll`
+        const res = await axios.get(url, {
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        dispatch(getDataSuccess(res.data));
+    } catch (e) {
+        dispatch(getDataFaild());
+        toast.error("Thất bại!");
+    }
+}
+
+// GET ALL DATA COMBO
+export const getALlCombo = async (dispatch, accessToken) => {
+    dispatch(getComboStart());
+    try {
+        const url = `${baseURL}data-combo/getAllCombo`
+        const res = await axios.get(url, {
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        dispatch(getComboSuccess(res.data));
+    } catch (e) {
+        dispatch(getComboFaild())
+        toast.error("Thất bại!");
+    }
+}
+
+// GET ALL DATA SIEU TOC
+export const getALlSieuToc = async (dispatch, accessToken) => {
+    dispatch(getSieuTocStart());
+    try {
+        const url = `${baseURL}data-sieu-toc/get-all`
+        const res = await axios.get(url, {
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        dispatch(getSieuTocSuccess(res.data));
+    } catch (e) {
+        dispatch(getSieuTocFaild())
+        toast.error("Thất bại!");
+    }
+}
+
+// GET ALL DATA OFFER
+export const getALlOffer = async (dispatch, accessToken) => {
+    dispatch(getDataOfferStart());
+    try {
+        const url = `${baseURL}data-offer/get-all-offer`
+        const res = await axios.get(url, {
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        dispatch(getDataOfferSuccess(res.data));
+    } catch (e) {
+        dispatch(getDataOfferFaild())
+        toast.error("Thất bại!");
+    }
+}
+
+// GET ALL USERS
+export const getAllUser = async (dispatch, accessToken) => {
+    dispatch(getUserStart())
+    try {
+        const url = `${baseURL}user-account/get-all`
+        const res = await axios.get(url, {
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        dispatch(getUserSuccess(res.data))
+    } catch (e) {
+        dispatch(getUserFaild())
+        toast.error("Thất bại!")
     }
 }

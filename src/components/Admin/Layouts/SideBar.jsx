@@ -21,17 +21,19 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Route, Routes, Link, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { LogoutUser } from '../../Api/apiRequest';
+import { createAxios } from '../../Interceptor';
+import { loginSuccess } from '../../Redux/authSlice';
 import DataPage from '../DataPage';
 import HomePage from '../HomePage';
+import UserPage from '../UserPage';
 import { AppBar, DrawerHeader, DrawerLeft, drawerWidth } from './DrawLeft';
 import viettelPngWhite from '/src/assets/viettelwhite.png';
-import UserPage from '../UserPage';
-import { useEffect } from 'react';
+import DataCommon from '../DataCommon/index'
 
 
 
@@ -46,7 +48,7 @@ const sideBarMenu = [
         label: 'Dữ liệu mạng',
         path: 'data',
         Icon: <DataThresholdingIcon />,
-        component: <DataPage />,
+        component: <DataCommon />,
     },
     {
         label: 'Tài khoản',
@@ -64,6 +66,7 @@ export default function SideBar() {
     const dispatch = useDispatch();
     const DataUser = useSelector((state) => state.auth.login?.currentUser)
     const [currentLabel, setCurrentLabel] = useState('');
+    // let axiosJWT = createAxios(DataUser, dispatch, loginSuccess);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
