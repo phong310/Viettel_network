@@ -12,6 +12,11 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import authReducer from "./authSlice"
+import dataReducer from "./dataSlice"
+import comboReducer from "./comboSlice"
+import sieuTocReducer from "./sieuTocSlice"
+import offerReducer from "./offerSlice"
+import userReducer from "./userSlice"
 
 
 const persistConfig = {
@@ -21,6 +26,12 @@ const persistConfig = {
 }
 const rootReducer = combineReducers({
     auth: authReducer,
+    data: dataReducer,
+    combo: comboReducer,
+    sieutoc: sieuTocReducer,
+    offer: offerReducer,
+    user: userReducer
+
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
