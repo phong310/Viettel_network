@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Typography } from '@mui/material'
 import SmsIcon from '@mui/icons-material/Sms';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import ModalDetail from '../Modal/ModalDetail';
 import { Autoplay } from "swiper";
@@ -8,6 +8,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getALlSieuToc } from '../Api/apiRequest';
 
 export default function DataSieuToc() {
 
@@ -18,69 +20,10 @@ export default function DataSieuToc() {
     })
 
     const { open, name, des } = openModal
-
-    const packOfData = [
-        {
-            name: 'ST70K',
-            price: '70.000đ /30 ngày',
-            data: '15GB',
-            syntax: 'ST70K TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn ST70K TN gửi 9123',
-            description: 'Với ST70K Viettel là gói cước 4G với chỉ 70.000đ / tháng của Viettel cung cấp.Bạn sẽ nhận được 15GB / tháng data 4G tốc độ cao.Mỗi ngày bạn nhận được 500MB data lướt web với tốc độ cao.Nhanh tay đăng ký nhận ưu đãi thôi nào.'
-        },
-        {
-            name: 'SD90',
-            price: '90.000đ /30 ngày',
-            data: '45GB',
-            syntax: 'SD90 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn SD90 TN gửi 9123',
-            description: 'Nếu trước đây các gói cước mạng 30GB/ tháng có giá thành 100.000đ thì giờ đây khi có mặt trên thị trường mạng thì SD90 Viettel làm nhiều người dùng bất ngờ với cước phí vô cùng rẻ chỉ với 90.000đ nhưng nhận ngay lên đến không chỉ 30GB mà là 45GB / tháng tương đương với 1,5GB / ngày giúp các thuê bao đăng ký gói cước có thế sử dụng Internet mỗi ngày.'
-        },
-        {
-            name: 'ST120K',
-            price: '120.000đ /30 ngày',
-            data: '60GB',
-            syntax: 'ST120K TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn ST120K TN gửi 9123',
-            description: 'ST120K Viettel là một trong những gói cước 4G Viettel tháng được các chủ thuê bao di động Viettel đăng ký sử dụng nhiều nhất. Đối với những khách hàng có nhu cầu làm việc, xem phim, nghe nhạc, chơi game… thường xuyên trên di động, dung lượng data truy cập tốc độ cao của các gói 4G tháng như gói ST70K (500MB/ngày), gói ST90 (1GB/ngày) thực sự không đáp ứng đủ. Trong khi các gói cước 4G Viettel 1 năm lại cần phải bỏ ra một khoản chi phí tương đối cao ngay lập tức để đăng ký sử dụng.Nắm bắt nhu cầu này, nhà mạng Viettel đã ra mắt gói ST120K phù hợp với nhu cầu của số đông sinh viên, người đi làm với mức thu nhập trung bình khá.Bạn sẽ nhận được 30GB / tháng, mỗi ngày sẽ nhận được 2GB tốc độ cao.Ngoài ra, bạn sẽ được lưu trữ 25GB dữ liệu trên Lifebox.ĐẶC BIỆT, bạn sẽ được xem phim miễn phí trên ứng dụng TV360.'
-        },
-        {
-            name: 'ST150K',
-            price: '150.000đ /30 ngày',
-            data: '90GB',
-            syntax: 'ST150K TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn ST150K TN gửi 9123',
-            description: 'Gói cước ST150K Viettel ưu đãi 90GB DATA lưu lượng tốc độ cao sử dụng trong 30 ngày. ST150K của Viettel được áp dụng cho nhu cầu đăng ký các gói 3G/4G Viettel để truy cập internet với giá cước 150.000đ. Khách hàng được tận hưởng 90GB (3GB/ngày) data tốc độ cao với những trải nghiệm 4G vô cùng tuyệt vời. Ngoài ra, gói cước ST150K còn ưu đãi miễn phí 25GB dữ liệu LifeBox và miễn phí xem ứng dụng TV360.'
-        },
-        {
-            name: 'ST120K',
-            price: '120.000đ /30 ngày',
-            data: '60GB',
-            syntax: 'ST120K TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn ST120K TN gửi 9123',
-            description: 'ST120K Viettel là một trong những gói cước 4G Viettel tháng được các chủ thuê bao di động Viettel đăng ký sử dụng nhiều nhất. Đối với những khách hàng có nhu cầu làm việc, xem phim, nghe nhạc, chơi game… thường xuyên trên di động, dung lượng data truy cập tốc độ cao của các gói 4G tháng như gói ST70K (500MB/ngày), gói ST90 (1GB/ngày) thực sự không đáp ứng đủ. Trong khi các gói cước 4G Viettel 1 năm lại cần phải bỏ ra một khoản chi phí tương đối cao ngay lập tức để đăng ký sử dụng.Nắm bắt nhu cầu này, nhà mạng Viettel đã ra mắt gói ST120K phù hợp với nhu cầu của số đông sinh viên, người đi làm với mức thu nhập trung bình khá.Bạn sẽ nhận được 30GB / tháng, mỗi ngày sẽ nhận được 2GB tốc độ cao.Ngoài ra, bạn sẽ được lưu trữ 25GB dữ liệu trên Lifebox.ĐẶC BIỆT, bạn sẽ được xem phim miễn phí trên ứng dụng TV360.'
-        },
-        {
-            name: 'ST150K',
-            price: '150.000đ /30 ngày',
-            data: '90GB',
-            syntax: 'ST150K TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn ST150K TN gửi 9123',
-            description: 'Gói cước ST150K Viettel ưu đãi 90GB DATA lưu lượng tốc độ cao sử dụng trong 30 ngày. ST150K của Viettel được áp dụng cho nhu cầu đăng ký các gói 3G/4G Viettel để truy cập internet với giá cước 150.000đ. Khách hàng được tận hưởng 90GB (3GB/ngày) data tốc độ cao với những trải nghiệm 4G vô cùng tuyệt vời. Ngoài ra, gói cước ST150K còn ưu đãi miễn phí 25GB dữ liệu LifeBox và miễn phí xem ứng dụng TV360.'
-        },
-    ]
+    const [packOfData, setPackOfData] = useState([])
+    const dataUser = useSelector((state) => state.auth.login?.currentUser)
+    const dataSieuToc = useSelector((state) => state.sieutoc.dataSieuTocList?.allData)
+    const dispatch = useDispatch()
 
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
@@ -101,6 +44,11 @@ export default function DataSieuToc() {
     const handleOpenModal = (newState) => {
         setOpenModal({ ...newState, open: true });
     };
+
+    useEffect(() => {
+        getALlSieuToc(dispatch, dataUser?.accessToken)
+        setPackOfData(dataSieuToc)
+    },[])
 
     return (
         <>
@@ -141,7 +89,7 @@ export default function DataSieuToc() {
                         return (
                             <SwiperSlide key={index} style={styleSwiper}>
                                 <Card sx={{ ...cardContainer }} key={index}>
-                                    {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
+                                    {item.hot === 'yes' && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
                                     <CardContent>
                                         <Typography variant="h4" component="div" sx={{ ...typoName }}>
                                             {item.name}

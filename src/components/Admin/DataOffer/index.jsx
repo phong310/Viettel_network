@@ -16,8 +16,9 @@ import { getALlCombo, getALlOffer, getALlSieuToc } from '../../Api/apiRequest';
 import { createAxios } from '../../Interceptor';
 import { loginSuccess } from '../../Redux/authSlice';
 import AddIcon from '@mui/icons-material/Add';
-import ModalData from '../Modal/ModalData';
-import ModalDelete from '../Modal/ModalDelete';
+import ModalData from '../Modal/ModalNetWork/ModalData';
+import ModalDelete from '../Modal/ModalNetWork/ModalDelete';
+
 
 
 const columns = [

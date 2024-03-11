@@ -4,10 +4,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import axios from 'axios';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function SearchPanel({ label, data, setDataList, setTriggerSearch, triggerSearch }) {
+export default function SearchPanel({ label, data, setDataList, setTriggerSearch, triggerSearch, resetSearch }) {
     const baseURL = import.meta.env.VITE_API_PRODUCTS;
     const [nameSearch, setNameSearch] = useState('');
     const [hotSearch, setHotSearch] = useState('');
@@ -15,7 +16,8 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
 
     const handleSearch = async () => {
         try {
-            const res = await axios.get(`${baseURL}data-network/search?name=${nameSearch}&hot=${hotSearch}&status=${statusSearch}`);
+            const res = data ? await axios.get(`${baseURL}data-network/search?name=${nameSearch}&hot=${hotSearch}&status=${statusSearch}`)
+                : await axios.get(`${baseURL}user-account/search?username=${nameSearch}&status=${statusSearch}`);
             if (res.data.length > 0) {
                 setDataList(res.data)
             } else {
@@ -33,6 +35,10 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
         setHotSearch('')
         setDataList([])
     }
+
+    useEffect(() => {
+        reset_search()
+    }, [resetSearch])
 
     return (
         <Box sx={{ ...styleBoxContainer }}>
@@ -59,7 +65,7 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
                             />
                         </Grid>
                         <Grid item xs={2}>
-                            <FormControl fullWidth sx={{ ...styleTextField  }}>
+                            <FormControl fullWidth sx={{ ...styleTextField }}>
                                 <InputLabel id="demo-simple-select-helper-label">Trạng thái</InputLabel>
                                 <Select
                                     label='Trạng thái'

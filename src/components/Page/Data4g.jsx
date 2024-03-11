@@ -1,85 +1,29 @@
 import SmsIcon from '@mui/icons-material/Sms';
 import { Button, Card, CardActions, CardContent, Divider, Grid, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalDetail from '../Modal/ModalDetail';
 import { Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllData } from '../Api/apiRequest';
 
 export default function Data4g() {
+    const dispatch = useDispatch()
 
     const [openModal, setOpenModal] = useState({
         open: false,
         name: '',
         des: ''
     })
+    const dataUser = useSelector((state) => state.auth.login?.currentUser)
+    const dataNetwork = useSelector((state) => state.data.dataNetworkList?.allData)
+
+    const [packOfData, setPackOfData] = useState([])
 
     const { open, name, des } = openModal
-
-    const packOfData = [
-        {
-            name: 'MXH100',
-            price: '100.000đ /30 ngày',
-            data: '30GB + Gọi',
-            syntax: 'MXH100 TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn MXH100 TN gửi 9123',
-            description: 'MXH100 Viettel là gói cước siêu tốc với 30GB dữ liệu, mỗi ngày 1GB và đặc biệt miễn phí không giới hạn truy cập Facebook, Youtube, Tik Tok ở tốc độ cao nhất. Gói cước này triển khai từ ngày 19/07/2023, áp dụng cho thuê bao trả trước và trả sau hòa mạng từ ngày 01/01/2023'
-        },
-        {
-            name: 'MXH120',
-            price: '120.000đ /30 ngày',
-            data: '30GB + Gọi',
-            syntax: 'MXH120 TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn MXH12 TN gửi 9123',
-            description: 'Đăng ký MXH120 của Viettel chỉ với mức giá là 120.000đ cho 30 ngày sử dụng bạn có ngay 30Gb data 4G tốc độ cao truy cập mạng internet trên điện thoại di động. Mỗi ngày bạn được sử dụng mức 1Gb data 4G tốc độ cao trong suốt 30 ngày để thỏa mái lướt nét xem tim túc, tìm kiếm thông tin để học tập và kết nối người thân.'
-        },
-        {
-            name: 'MXH150',
-            price: '150.000đ /30 ngày',
-            data: '45GB + Gọi',
-            syntax: 'MXH150 TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn MXH150 TN gửi 9123',
-            description: 'MXH150 Viettel – 150.000 đ / tháng là gói cước KHÔNG GIỚI HẠN DATA khi truy cập Tiktok, Youtube, Facebook và gọi nội mạng, ngoại thả ga miễn phí. Ngoài ra gói cước MXH150 còn có 45 GB DATA để quý khách sử dụng truy cập vào các công việc khác phục vụ làm việc, học tập, giải trí…'
-        },
-        {
-            name: 'SD150',
-            price: '150.000đ /30 ngày',
-            data: '90GB',
-            syntax: 'SD150 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn SD150 gửi 9123',
-            description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
-        },
-        {
-            name: 'SD150',
-            price: '150.000đ /30 ngày',
-            data: '90GB',
-            syntax: 'SD150 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn SD150 gửi 9123',
-            description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
-        },
-        {
-            name: 'SD150',
-            price: '150.000đ /30 ngày',
-            data: '90GB',
-            syntax: 'SD150 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn SD150 gửi 9123',
-            description: 'SD150 Viettel sẽ không làm bạn thất vọng với trữ lượng lên đến 90GB / tháng mà giá thành thì cực kì phải chăng giúp bạn có thể tiết kiệm chi phí cũng như có thêm nhiều trữ lượng hơn khi đăng ký gói cước này , để trải nghiệm gói cước này cùng nhanh tay đăng ký theo cú pháp được để ngay bên dưới bài viết này nhé.'
-        },
-    ]
 
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
@@ -100,6 +44,11 @@ export default function Data4g() {
     const handleOpenModal = (newState) => {
         setOpenModal({ ...newState, open: true });
     };
+
+    useEffect(() => {
+        getAllData(dispatch, dataUser?.accessToken)
+        setPackOfData(dataNetwork)
+    }, [])
 
     return (
         <>
@@ -140,7 +89,7 @@ export default function Data4g() {
                         return (
                             <SwiperSlide key={index} style={styleSwiper}>
                                 <Card sx={{ ...cardContainer }}>
-                                    {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
+                                    {item.hot === 'yes' && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
                                     <CardContent>
                                         <Typography variant="h4" component="div" sx={{ ...typoName }}>
                                             {item.name}

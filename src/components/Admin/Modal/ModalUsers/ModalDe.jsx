@@ -12,14 +12,17 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { LoadingButton } from '@mui/lab'
 import { toast } from 'react-toastify';
 
-export default function ModalDelete({ open, setOpen, item, setIsFetching, isFetching, valueTab, isDetail, setIsDetail }) {
+export default function ModalDe({ open, setOpen, item, setIsFetching, isFetching, isDetail, setIsDetail }) {
     const baseURL = import.meta.env.VITE_API_PRODUCTS;
-    const urlApi = 'data-network'
+    const urlApi = 'user-account'
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleDelete = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true)
         try {
             await axios.delete(`${baseURL}${urlApi}/${item?._id}`)
             setIsFetching(!isFetching)
@@ -29,6 +32,9 @@ export default function ModalDelete({ open, setOpen, item, setIsFetching, isFetc
         } catch (e) {
             console.log("ERR:", e)
             toast.warning("Xóa thất bại !");
+        }
+        finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -64,7 +70,7 @@ export default function ModalDelete({ open, setOpen, item, setIsFetching, isFetc
                     noValidate
                     autoComplete="off"
                 >
-                    {isDetail ? JSON.stringify(item) : <Typography>Bạn có chắc muốn xóa gói <b style={{ color: '#dd3333' }}>{item?.name}</b> </Typography>}
+                    {isDetail ? JSON.stringify(item) : <Typography>Bạn có chắc muốn xóa gói <b style={{ color: '#dd3333' }}>{item?.username}</b> </Typography>}
                 </Box>
             </DialogContent>
             <Box
@@ -78,9 +84,9 @@ export default function ModalDelete({ open, setOpen, item, setIsFetching, isFetc
                         Hủy
                     </Button>
                     {
-                        !isDetail && <Button variant="contained" sx={{ ...styleBtnAdd }} onClick={handleDelete}>
+                        !isDetail && <LoadingButton type='submit' variant="contained" loading={isSubmitting} sx={{ ...styleBtnAdd }} onClick={handleDelete}>
                             Xóa
-                        </Button>
+                        </LoadingButton>
                     }
                 </Grid>
 

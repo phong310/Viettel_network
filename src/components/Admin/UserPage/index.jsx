@@ -1,3 +1,4 @@
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -12,11 +13,12 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getALlCombo, getALlOffer, getALlSieuToc, getAllUser } from '../../Api/apiRequest';
+import { getAllUser } from '../../Api/apiRequest';
 import { createAxios } from '../../Interceptor';
 import { loginSuccess } from '../../Redux/authSlice';
-import AddIcon from '@mui/icons-material/Add';
+import ModalUser from '../Modal/ModalUsers/ModalUser';
 import SearchPanel from '../SearchPanel';
+import ModalDe from '../Modal/ModalUsers/ModalDe';
 
 
 const columns = [
@@ -61,9 +63,17 @@ const columns = [
 export default function UserPage() {
   const dataUser = useSelector((state) => state.auth.login?.currentUser)
   const userData = useSelector((state) => state.user.userList?.userData)
+  const [isFetching, setIsFetching] = useState(false)
   const dispatch = useDispatch();
   const MAX_DESCRIPTION_LENGTH = 30;
   let axiosJWT = createAxios(dataUser, dispatch, loginSuccess);
+  const [openAdd, setOpenAdd] = useState(false)
+  const [itemData, setItemData] = useState()
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDetail, setIsDetail] = useState(false)
+  const [openModalDelete, setOpenModalDelete] = useState(false)
+  const [dataList, setDataList] = useState([])
+  const [triggerSearch, setTriggerSearch] = useState(false)
 
 
   const truncateDescription = (description) => {
@@ -86,21 +96,46 @@ export default function UserPage() {
     setPage(0);
   };
 
+  const handleUpdate = (item) => {
+    setIsEdit(true)
+    setItemData(item)
+    setOpenAdd(true)
+  }
+
+  const handleDelete = (item) => {
+    setOpenModalDelete(true)
+    setItemData(item)
+  }
+
+  const handleDetail = (item) => {
+    setOpenModalDelete(true)
+    setIsDetail(true)
+    setItemData(item)
+  }
+
   useEffect(() => {
     if (dataUser?.accessToken) {
       getAllUser(dispatch, dataUser?.accessToken)
+    }
+  }, [dataUser, isFetching])
+
+
+  useEffect(() => {
+    if (dataList.length > 0) {
+      setRowData(dataList)
+    } else {
       setRowData(userData)
     }
-  }, [dataUser])
+  }, [userData, dataList, triggerSearch])
 
   return (
     <>
-      <SearchPanel label="Tên tài khoản" data={false} />
+      <SearchPanel label="Tên tài khoản" data={false} setDataList={setDataList} setTriggerSearch={setTriggerSearch} triggerSearch={triggerSearch} />
       <Box sx={{ ...styleBoxContainer }}>
         <Paper sx={{ width: '100%', overflow: 'hidden', }}>
           <TableCell sx={{ ...tableCellTitle }}>
             <Typography variant='h5'>Danh sách tài khoản</Typography>
-            <Button variant="contained" startIcon={<AddIcon />} sx={{ ...styleBtnAdd }}>
+            <Button variant="contained" startIcon={<AddIcon />} sx={{ ...styleBtnAdd }} onClick={() => setOpenAdd(true)}>
               Thêm mới
             </Button>
           </TableCell>
@@ -137,24 +172,24 @@ export default function UserPage() {
                           } else if (column.id === 'status') {
                             return (
                               <TableCell key={column.id} align={column.align}>
-                                <Chip variant="outlined" label={value === 1 ? "Kích hoạt" : " Chưa kích hoạt"} color={value === 1 ? "success" : "error"} />
+                                <Chip variant="outlined" label={value === 'active' ? "Kích hoạt" : " Chưa kích hoạt"} color={value === 'active' ? "success" : "error"} />
                               </TableCell>
                             )
                           }
                           else if (column.id === 'actions') {
                             return (
                               <TableCell key={column.id} align={column.align} >
-                                <IconButton aria-label="edit" size="small" sx={{ ...colorMain }}>
+                                <IconButton aria-label="edit" size="small" sx={{ ...colorMain }} onClick={() => handleUpdate(row)}>
                                   <Tooltip title="Chỉnh sửa" placement="top">
                                     <EditIcon />
                                   </Tooltip>
                                 </IconButton>
-                                <IconButton aria-label="edit" size="small" sx={{ ...colorMain }}>
+                                <IconButton aria-label="edit" size="small" sx={{ ...colorMain }} onClick={() => handleDetail(row)}>
                                   <Tooltip title="Chi tiết" placement="top">
                                     <RemoveRedEyeIcon />
                                   </Tooltip>
                                 </IconButton>
-                                <IconButton aria-label="delete" size="small" sx={{ ...colorMain }}>
+                                <IconButton aria-label="delete" size="small" sx={{ ...colorMain }} onClick={() => handleDelete(row)}>
                                   <Tooltip title="Xóa" placement="top">
                                     <DeleteIcon />
                                   </Tooltip>
@@ -185,6 +220,24 @@ export default function UserPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
+        <ModalUser
+          open={openAdd}
+          setOpen={setOpenAdd}
+          isFetching={isFetching}
+          setIsFetching={setIsFetching}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          item={itemData}
+        />
+        <ModalDe
+          open={openModalDelete}
+          setOpen={setOpenModalDelete}
+          item={itemData}
+          setIsFetching={setIsFetching}
+          isFetching={isFetching}
+          setIsDetail={setIsDetail}
+          isDetail={isDetail}
+        />
       </Box>
     </>
 

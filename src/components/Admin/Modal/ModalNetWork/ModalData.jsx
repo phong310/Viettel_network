@@ -18,10 +18,11 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { LoadingButton } from '@mui/lab'
 import * as yup from 'yup';
 
 export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEdit, setIsEdit, item, isFetching }) {
-    const baseURL = import.meta.env.VITE_API_PRODUCTS;
+    const baseURL = import.meta.env.VITE_API_LOCAL;
     const urlApi = 'data-network/add-new'
     const urlUpdateApi = 'data-network/update'
     const handleClose = () => {
@@ -49,6 +50,7 @@ export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEd
     const [errors, setErrors] = useState({});
     const [isHot, setIsHot] = useState(false);
     const [isStatus, setIsStaus] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
 
     const DataSchema = yup.object().shape({
@@ -63,6 +65,7 @@ export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEd
 
     const handleCallApi = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true)
         const newData = {
             name: username,
             price: price,
@@ -80,7 +83,6 @@ export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEd
             isEdit ? await axios.put(`${baseURL}${urlUpdateApi}/${item?._id}`, newData) : await axios.post(`${baseURL}${urlApi}`, newData);
             isEdit ? toast.success("Cập nhật gói cước thành công") : toast.success("Thêm mới gói cước thành công");
             setIsFetching(!isFetching)
-            setOpen(false)
             handleClose()
         } catch (error) {
             if (error instanceof yup.ValidationError) {
@@ -90,6 +92,8 @@ export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEd
                 });
                 setErrors(newErrors);
             }
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -296,9 +300,9 @@ export default function ModalData({ open, setOpen, valueTab, setIsFetching, isEd
                     <Button variant="outlined" color='error' onClick={handleClose}>
                         Hủy
                     </Button>
-                    <Button variant="contained" sx={{ ...styleBtnAdd }} onClick={handleCallApi}>
+                    <LoadingButton type="submit" variant="contained" sx={{ ...styleBtnAdd }} loading={isSubmitting} onClick={handleCallApi}>
                         {isEdit ? 'Cập nhật' : 'Thêm'}
-                    </Button>
+                    </LoadingButton>
                 </Grid>
 
             </Box>

@@ -10,6 +10,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getALlOffer } from '../Api/apiRequest';
 
 export default function DataOffer() {
     const [openModal, setOpenModal] = useState({
@@ -20,68 +23,74 @@ export default function DataOffer() {
 
     const { open, name, des } = openModal
 
-    const packOfData = [
-        {
-            name: 'V90C',
-            price: '90.000đ /30 ngày',
-            data: '30GB + Gọi',
-            syntax: 'V90C TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn V90C TN gửi 9123',
-            description: 'Sở hữu ưu đãi tích hợp với giá cước siêu rẻ khi đăng ký gói cước V90C thì còn gì tuyệt vời hơn. Vậy làm thế nào để đăng ký gói V90C nhận được ngay ưu đãi khủng? Thông tin dưới đây rất chi tiết để khách hàng có thể để dễ dàng đăng ký gói cước khuyến mãi V90C nhanh chóng, đơn giản nhất.'
-        },
-        {
-            name: 'V120B',
-            price: '120.000đ /30 ngày',
-            data: '45GB + Gọi',
-            syntax: 'V120B TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn V120B TN gửi 9123',
-            description: 'Bạn đang tìm kiếm gói cước để đáp ứng nhu cầu nghe gọi và sử dụng Internet thường xuyên vậy V120B Viettel sẽ không làm bạn thất vọng, với ưu đãi vô cùng hời mức chi phí siêu rẻ , chỉ với 120.000đ cho 1 lần đăng ký thành công , nhanh tay đăng ký gói cước này ngay với cú pháp được để bên dưới bài viết này nhé.'
-        },
-        {
-            name: 'V150B',
-            price: '150.000đ /30 ngày',
-            data: '60GB + Gọi',
-            syntax: 'V150B TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn V150B TN gửi 9123',
-            description: 'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
-        },
-        {
-            name: 'V200C',
-            price: '200.000đ /30 ngày',
-            data: '120GB + Gọi',
-            syntax: 'V200C TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn V200C TN gửi 9123',
-            description: 'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
-        },
-        {
-            name: 'V150B',
-            price: '150.000đ /30 ngày',
-            data: '60GB + Gọi',
-            syntax: 'V150B TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn V150B TN gửi 9123',
-            description: 'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
-        },
-        {
-            name: 'V200C',
-            price: '200.000đ /30 ngày',
-            data: '120GB + Gọi',
-            syntax: 'V200C TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn V200C TN gửi 9123',
-            description: 'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
-        },
-    ]
+    const [packOfData, setPackOfData] = useState([])
+    const dataUser = useSelector((state) => state.auth.login?.currentUser)
+    const dataOffer = useSelector((state) => state.offer.dataOfferList?.allData)
+    const dispatch = useDispatch()
+
+
+    // const packOfData = [
+    //     {
+    //         name: 'V90C',
+    //         price: '90.000đ /30 ngày',
+    //         data: '30GB + Gọi',
+    //         syntax: 'V90C TN',
+    //         phone: 9123,
+    //         hot: false,
+    //         register: 'Soạn V90C TN gửi 9123',
+    //         description: 'Sở hữu ưu đãi tích hợp với giá cước siêu rẻ khi đăng ký gói cước V90C thì còn gì tuyệt vời hơn. Vậy làm thế nào để đăng ký gói V90C nhận được ngay ưu đãi khủng? Thông tin dưới đây rất chi tiết để khách hàng có thể để dễ dàng đăng ký gói cước khuyến mãi V90C nhanh chóng, đơn giản nhất.'
+    //     },
+    //     {
+    //         name: 'V120B',
+    //         price: '120.000đ /30 ngày',
+    //         data: '45GB + Gọi',
+    //         syntax: 'V120B TN',
+    //         phone: 9123,
+    //         hot: false,
+    //         register: 'Soạn V120B TN gửi 9123',
+    //         description: 'Bạn đang tìm kiếm gói cước để đáp ứng nhu cầu nghe gọi và sử dụng Internet thường xuyên vậy V120B Viettel sẽ không làm bạn thất vọng, với ưu đãi vô cùng hời mức chi phí siêu rẻ , chỉ với 120.000đ cho 1 lần đăng ký thành công , nhanh tay đăng ký gói cước này ngay với cú pháp được để bên dưới bài viết này nhé.'
+    //     },
+    //     {
+    //         name: 'V150B',
+    //         price: '150.000đ /30 ngày',
+    //         data: '60GB + Gọi',
+    //         syntax: 'V150B TN',
+    //         phone: 9123,
+    //         hot: false,
+    //         register: 'Soạn V150B TN gửi 9123',
+    //         description: 'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
+    //     },
+    //     {
+    //         name: 'V200C',
+    //         price: '200.000đ /30 ngày',
+    //         data: '120GB + Gọi',
+    //         syntax: 'V200C TN',
+    //         phone: 9123,
+    //         hot: true,
+    //         register: 'Soạn V200C TN gửi 9123',
+    //         description: 'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
+    //     },
+    //     {
+    //         name: 'V150B',
+    //         price: '150.000đ /30 ngày',
+    //         data: '60GB + Gọi',
+    //         syntax: 'V150B TN',
+    //         phone: 9123,
+    //         hot: false,
+    //         register: 'Soạn V150B TN gửi 9123',
+    //         description: 'Nếu với trữ lượng 1GB mỗi ngày là chưa đủ với nhu cầu sử dụng mạng của bạn thì V150B Viettel sẽ là cứu cánh ngay cho bạn lúc này , với trữ lượng lên đến 2GB mỗi ngày và miễn phí phút gọi hai chiều , quả là 1 gói cước đáng giá phải không nào.'
+    //     },
+    //     {
+    //         name: 'V200C',
+    //         price: '200.000đ /30 ngày',
+    //         data: '120GB + Gọi',
+    //         syntax: 'V200C TN',
+    //         phone: 9123,
+    //         hot: true,
+    //         register: 'Soạn V200C TN gửi 9123',
+    //         description: 'Gói cước V200C Viettel là một trong các gói combo data điện thoại và SMS khủng nhất của mạng Viettel hiện nay. V200C Viettel được áp dụng cho nhu cầu đăng ký thoại nội mạng kèm data 3G/4G để truy cập internet với giá cước 200.000đ. Khách hàng được tận hưởng 120GB data tốc độ cao, thoại nội mạng thả ga mà không mất phí và có 25GB dữ liệu lưu trữ trên Lifebox, miễn phí xem phim trên Viettel TV. Với những ưu đãi vô cùng hấp dẫn trên, V200C Viettel gần như là một gói cước hoàn hảo thỏa mãn mọi đối tượng và nhu cầu của người dùng'
+    //     },
+    // ]
 
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
@@ -110,6 +119,11 @@ export default function DataOffer() {
     const news = () => {
         window.open('https://3g4gviettel.vn/tin-tuc/', '_blank');
     }
+
+    useEffect(() => {
+        getALlOffer(dispatch, dataUser?.accessToken)
+        setPackOfData(dataOffer)
+    },[])
 
 
     return (
@@ -152,7 +166,7 @@ export default function DataOffer() {
                             return (
                                 <SwiperSlide key={index} style={styleSwiper}>
                                     <Card sx={{ ...cardContainer }} key={index}>
-                                        {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
+                                        {item.hot === 'yes' && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
                                         <CardContent>
                                             <Typography variant="h4" component="div" sx={{ ...typoName }}>
                                                 {item.name}
