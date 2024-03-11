@@ -8,6 +8,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect } from 'react';
+import { getALlCombo } from '../Api/apiRequest';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function ComboData() {
     const [openModal, setOpenModal] = useState({
@@ -15,70 +18,14 @@ export default function ComboData() {
         name: '',
         des: ''
     })
+    const dataUser = useSelector((state) => state.auth.login?.currentUser)
+    const dataCombo = useSelector((state) => state.combo.dataComboList?.allData)
+    const dispatch = useDispatch()
+
+
+    const [packOfData, setPackOfData] = useState([])
 
     const { open, name, des } = openModal
-    const packOfData = [
-        {
-            name: '3N',
-            price: '30.000đ /3 ngày',
-            data: '15GB + Gọi',
-            syntax: '3N TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn 3N TN gửi 9123',
-            description: "Gói cước 3N của Viettel là gói cước combo ưu đãi áp dụng cho tất cả thuê bao di động trả trước, trả sau không cần điều kiện. Khi tham gia gói bạn sẽ được nhận đến 5GB/ngày, miễn phí gọi nội mạng dưới 20 phút, 15 phút gọi ngoại mạng, miễn phí nhắn tin nội mạng. Tất cả ưu đãi chỉ có giá 30.000đ/ ngày mà thôi quá rẻ để bạn tận hưởng niềm vui dùng sim cả ngày."
-        },
-        {
-            name: '7N',
-            price: '70.000đ /7 ngày',
-            data: '35GB + Gọi',
-            syntax: '7N TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn 7N TN gửi 9123',
-            description: 'Gói cước Combo Viettel 1 tuần mới nhất vừa được ra mắt từ ngày 10/06/2022, khi đăng ký gói 7N Viettel bạn sẽ nhận được ưu đãi hấp dẫn bao gồm: 5GB/ngày x 7 ngày, miễn phí 20 phút/ cuộc gọi nội mạng, miễn phí SMS nội mạng, 35 phút ngoại mạng va đặc biệt được miễn phí xem truyền hình trên app TV360 gói Basic trong 1 tuần.'
-        },
-        {
-            name: 'ST90',
-            price: '90.000đ /30 ngày',
-            data: '30GB',
-            syntax: 'ST90 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn ST90 TN gửi 9123',
-            description: 'Đăng ký ST90 Viettel là gói cước 4G theo tháng chỉ với 90.000đ bạn sẽ có ngay 30GB/tháng tốc độ cao để truy cập mạng Internet. Mỗi ngày bạn sẽ nhận được 1GB tốc độ cao để sử dụng, đây là mức ưu đãi hấp dẫn cước phí lại vô cùng “hạt dẻ”, nhanh tay đăng ký để cùng trải nghiệm những ưu đãi hấp dẫn.'
-        },
-        {
-            name: 'SD120',
-            price: '120.000đ /30 ngày',
-            data: '60GB',
-            syntax: 'SD120 TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn SD120 TN gửi 9123',
-            description: 'SD120 Viettel sẽ là 1 lựa chọn hoàn hảo nếu như nhu cầu mỗi ngày của thuê bao là truy cập thường xuyên vào Internet với trữ lượng lên đến 60GB cho cả chu kỳ đăng ký mà giá thành thanh toán chỉ có 120.000đ '
-        },
-        {
-            name: 'ST90',
-            price: '90.000đ /30 ngày',
-            data: '30GB',
-            syntax: 'ST90 TN',
-            phone: 9123,
-            hot: true,
-            register: 'Soạn ST90 TN gửi 9123',
-            description: 'Đăng ký ST90 Viettel là gói cước 4G theo tháng chỉ với 90.000đ bạn sẽ có ngay 30GB/tháng tốc độ cao để truy cập mạng Internet. Mỗi ngày bạn sẽ nhận được 1GB tốc độ cao để sử dụng, đây là mức ưu đãi hấp dẫn cước phí lại vô cùng “hạt dẻ”, nhanh tay đăng ký để cùng trải nghiệm những ưu đãi hấp dẫn.'
-        },
-        {
-            name: 'SD120',
-            price: '120.000đ /30 ngày',
-            data: '60GB',
-            syntax: 'SD120 TN',
-            phone: 9123,
-            hot: false,
-            register: 'Soạn SD120 TN gửi 9123',
-            description: 'SD120 Viettel sẽ là 1 lựa chọn hoàn hảo nếu như nhu cầu mỗi ngày của thuê bao là truy cập thường xuyên vào Internet với trữ lượng lên đến 60GB cho cả chu kỳ đăng ký mà giá thành thanh toán chỉ có 120.000đ '
-        },
-    ]
 
     const showAlertOrSendSMS = (registerInfo, phone, syntax) => {
         const isMobile = window.innerWidth <= 768; // Giả sử độ rộng của thiết bị di động là 768px
@@ -99,6 +46,13 @@ export default function ComboData() {
     const handleOpenModal = (newState) => {
         setOpenModal({ ...newState, open: true });
     }
+
+
+    useEffect(() => {
+        getALlCombo(dispatch, dataUser?.accessToken)
+        setPackOfData(dataCombo)
+    }, [])
+
     return (
         <Box sx={{ bgcolor: '#dd3333', mt: 10, py: 4 }}>
             <Grid container justifyContent={'center'} sx={{ pb: 4 }}>
@@ -138,7 +92,7 @@ export default function ComboData() {
                         return (
                             <SwiperSlide key={index} style={styleSwiper}>
                                 <Card sx={{ ...cardContainer }} key={index}>
-                                    {item.hot && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
+                                    {item.hot === 'yes' && <img src='https://goidataviettel.vn/wp-content/uploads/2023/07/goi-cuoc-hot.png' style={imgStyle} />}
                                     <CardContent>
                                         <Typography variant="h4" component="div" sx={{ ...typoName }}>
                                             {item.name}

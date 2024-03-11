@@ -134,7 +134,7 @@ export default function SideBar() {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleClose}>Cá nhân</MenuItem>
+                        {/* <MenuItem onClick={handleClose}>Cá nhân</MenuItem> */}
                         <MenuItem onClick={LogOut}>Đăng xuất</MenuItem>
                     </Menu>
                 </Toolbar>

@@ -1,6 +1,6 @@
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Box, Tab } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DataCombo from '../DataCombo';
 import DataOffer from '../DataOffer';
 import DataPage from '../DataPage';
@@ -11,16 +11,21 @@ export default function index() {
     const [value, setValue] = useState('1');
     const [dataList, setDataList] = useState([])
     const [triggerSearch, setTriggerSearch] = useState(false)
+    const [resetSearch, setResetSearch] = useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    useEffect(() => {
+        setResetSearch(!resetSearch)
+    },[value])
+
 
 
     return (
         <>
-            <SearchPanel label='Tên gói cước' data={true} setDataList={setDataList} setTriggerSearch={setTriggerSearch} triggerSearch={triggerSearch}/>
+            <SearchPanel label='Tên gói cước' data={true} setDataList={setDataList} setTriggerSearch={setTriggerSearch} triggerSearch={triggerSearch} resetSearch={resetSearch}/>
             <TabContext value={value}>
                 <Box sx={{ textAlign: 'center' }}>
                     <Box sx={{ display: 'inline-block' }}>

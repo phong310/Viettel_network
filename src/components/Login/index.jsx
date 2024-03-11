@@ -32,15 +32,14 @@ export const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true)
+        setIsSubmitting(true);
         const loginUser = {
             username: username,
             password: password
-        }
+        };
         try {
             await loginSchema.validate({ username, password }, { abortEarly: false });
-            LoginUser(loginUser, dispatch, navigate)
-            setIsSubmitting(false)
+            await LoginUser(loginUser, dispatch, navigate);
         } catch (error) {
             if (error instanceof yup.ValidationError) {
                 const newErrors = {};
@@ -49,9 +48,10 @@ export const Login = () => {
                 });
                 setErrors(newErrors);
             }
-            setIsSubmitting(false)
+        } finally {
+            setIsSubmitting(false);
         }
-    }
+    };
 
 
     return (
