@@ -53,7 +53,7 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container alignItems={'center'} spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={12} md={3}>
                             <TextField
                                 fullWidth
                                 id="outlined-basic"
@@ -64,7 +64,7 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
                                 onChange={(e) => setNameSearch(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={12} md={3}>
                             <FormControl fullWidth sx={{ ...styleTextField }}>
                                 <InputLabel id="demo-simple-select-helper-label">Trạng thái</InputLabel>
                                 <Select
@@ -79,7 +79,7 @@ export default function SearchPanel({ label, data, setDataList, setTriggerSearch
                                 </Select>
                             </FormControl>
                         </Grid>
-                        {data && <Grid item xs={2}>
+                        {data && <Grid item xs={12} md={3}>
                             <FormControl fullWidth sx={{ ...styleTextField }}>
                                 <InputLabel id="demo-simple-select-label">Hot</InputLabel>
                                 <Select

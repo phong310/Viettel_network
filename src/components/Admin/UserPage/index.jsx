@@ -157,7 +157,7 @@ export default function UserPage() {
               </TableHead>
               <TableBody>
                 {rowData
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, idx) => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={idx}>
